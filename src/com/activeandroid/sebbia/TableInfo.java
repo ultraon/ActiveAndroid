@@ -16,24 +16,17 @@ package com.activeandroid.sebbia;
  * limitations under the License.
  */
 
-import java.lang.reflect.Field;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-
-import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteStatement;
 import android.text.TextUtils;
-
 import com.activeandroid.sebbia.annotation.Column;
 import com.activeandroid.sebbia.annotation.Table;
 import com.activeandroid.sebbia.util.Log;
 import com.activeandroid.sebbia.util.ReflectionUtils;
 import com.activeandroid.sebbia.util.SQLiteUtils;
+import net.sqlcipher.database.SQLiteDatabase;
+import net.sqlcipher.database.SQLiteStatement;
+
+import java.lang.reflect.Field;
+import java.util.*;
 
 public final class TableInfo {
 	//////////////////////////////////////////////////////////////////////////////////////
@@ -125,7 +118,7 @@ public final class TableInfo {
 	
 	public SQLiteStatement getInsertStatement() {
 		if (mInsertStatement == null) {
-			SQLiteDatabase db = Cache.openDatabase(); 
+			SQLiteDatabase db = Cache.openDatabase();
 			mInsertStatement = db.compileStatement(SQLiteUtils.createInsertStatement("INSERT INTO ", this));
 		}
 		return mInsertStatement;

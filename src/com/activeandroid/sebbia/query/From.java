@@ -328,6 +328,7 @@ public final class From implements Sqlable {
 
     /**
      * Gets the number of rows returned by the query.
+     * @return count
      */
     public int count() {
         return SQLiteUtils.intQuery(toCountSql(), getArguments());

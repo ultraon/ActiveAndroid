@@ -1,17 +1,16 @@
 package com.activeandroid.sebbia.internal;
 
-import java.util.Map;
-
 import android.content.ContentValues;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteStatement;
-
 import com.activeandroid.sebbia.Cache;
 import com.activeandroid.sebbia.Model;
 import com.activeandroid.sebbia.query.Select;
 import com.activeandroid.sebbia.serializer.TypeSerializer;
 import com.activeandroid.sebbia.util.Log;
 import com.activeandroid.sebbia.util.ReflectionUtils;
+import net.sqlcipher.database.SQLiteStatement;
+
+import java.util.Map;
 
 public class ModelHelper {
 	

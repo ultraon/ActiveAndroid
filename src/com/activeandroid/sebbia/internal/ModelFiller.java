@@ -1,12 +1,11 @@
 package com.activeandroid.sebbia.internal;
 
-import java.util.Map;
-
 import android.content.ContentValues;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteStatement;
-
 import com.activeandroid.sebbia.Model;
+import net.sqlcipher.database.SQLiteStatement;
+
+import java.util.Map;
 
 public abstract class ModelFiller {
 	public static final String SUFFIX = "$$ActiveAndroidModelFiller";

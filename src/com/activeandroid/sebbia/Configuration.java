@@ -16,15 +16,14 @@ package com.activeandroid.sebbia;
  * limitations under the License.
  */
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 import android.content.Context;
-
 import com.activeandroid.sebbia.serializer.TypeSerializer;
 import com.activeandroid.sebbia.util.Log;
 import com.activeandroid.sebbia.util.ReflectionUtils;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class Configuration {
 
@@ -42,6 +41,7 @@ public class Configuration {
 	private List<Class<? extends Model>> mModelClasses;
 	private List<Class<? extends TypeSerializer>> mTypeSerializers;
 	private int mCacheSize;
+    private String mEncKey;
 
 	//////////////////////////////////////////////////////////////////////////////////////
 	// CONSTRUCTORS
@@ -66,7 +66,11 @@ public class Configuration {
 	public int getDatabaseVersion() {
 		return mDatabaseVersion;
 	}
-	
+
+    public String getEncKey() {
+        return mEncKey;
+    }
+
 	public String getSqlParser() {
 	    return mSqlParser;
 	}
@@ -101,6 +105,7 @@ public class Configuration {
 		private final static String AA_MODELS = "AA_MODELS";
 		private final static String AA_SERIALIZERS = "AA_SERIALIZERS";
 		private final static String AA_SQL_PARSER = "AA_SQL_PARSER";
+        private final static String AA_ENCRYPTION_KEY = "AA_ENCRYPTION_KEY";
 
 		private static final int DEFAULT_CACHE_SIZE = 1024;
 		private static final String DEFAULT_DB_NAME = "Application.db";
@@ -242,6 +247,10 @@ public class Configuration {
 					configuration.mTypeSerializers = loadSerializerList(serializerList.split(","));
 				}
 			}
+
+            //Get encryption key from Manifest
+            final String encKey = ReflectionUtils.getMetaData(mContext, AA_ENCRYPTION_KEY);
+            configuration.mEncKey = null == encKey ? "DEFAULT_ENC_KEY" : encKey;
 
 			return configuration;
 		}

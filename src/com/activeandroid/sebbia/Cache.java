@@ -16,20 +16,19 @@ package com.activeandroid.sebbia;
  * limitations under the License.
  */
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
-
 import android.content.Context;
-import android.database.sqlite.SQLiteDatabase;
 import android.support.v4.util.LruCache;
-
 import com.activeandroid.sebbia.annotation.DoNotGenerate;
 import com.activeandroid.sebbia.internal.EmptyModelFiller;
 import com.activeandroid.sebbia.internal.ModelFiller;
 import com.activeandroid.sebbia.serializer.TypeSerializer;
 import com.activeandroid.sebbia.util.Log;
 import com.activeandroid.sebbia.util.ReflectionUtils;
+import net.sqlcipher.database.SQLiteDatabase;
+
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
 public final class Cache {
 	//////////////////////////////////////////////////////////////////////////////////////
@@ -53,6 +52,8 @@ public final class Cache {
 	
 	private static Map<Class<? extends Model>, ModelFiller> sFillers;
 
+    private static Configuration mConfiguration;
+
 	//////////////////////////////////////////////////////////////////////////////////////
 	// CONSTRUCTORS
 	//////////////////////////////////////////////////////////////////////////////////////
@@ -64,13 +65,15 @@ public final class Cache {
 	// PUBLIC METHODS
 	//////////////////////////////////////////////////////////////////////////////////////
 
-	public static synchronized void initialize(Configuration configuration) {
+	public static synchronized void initialize(final Configuration configuration) {
 		if (sIsInitialized) {
 			Log.v("ActiveAndroid already initialized.");
 			return;
 		}
 
+        mConfiguration = configuration;
 		sContext = configuration.getContext();
+        SQLiteDatabase.loadLibs(sContext);
 		sModelInfo = new ModelInfo(configuration);
 		sDatabaseHelper = new DatabaseHelper(configuration);
 
@@ -114,7 +117,7 @@ public final class Cache {
 	}
 
 	public static synchronized SQLiteDatabase openDatabase() {
-		return sDatabaseHelper.getWritableDatabase();
+		return sDatabaseHelper.getWritableDatabase(mConfiguration.getEncKey());
 	}
 
 	public static synchronized void closeDatabase() {

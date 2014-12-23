@@ -1,12 +1,11 @@
 package com.activeandroid.sebbia.widget;
 
-import java.util.Collection;
-import java.util.List;
-
 import android.content.Context;
 import android.widget.ArrayAdapter;
-
 import com.activeandroid.sebbia.Model;
+
+import java.util.Collection;
+import java.util.List;
 
 public class ModelAdapter<T extends Model> extends ArrayAdapter<T> {
 	public ModelAdapter(Context context, int textViewResourceId) {
@@ -41,7 +40,7 @@ public class ModelAdapter<T extends Model> extends ArrayAdapter<T> {
 	}
 
 	/**
-	 * @return The Id of the record at position.
+	 * @return The _id of the record at position.
 	 */
 	@Override
 	public long getItemId(int position) {

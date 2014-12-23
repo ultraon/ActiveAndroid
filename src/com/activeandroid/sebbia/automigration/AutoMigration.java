@@ -1,16 +1,15 @@
 package com.activeandroid.sebbia.automigration;
 
-import java.util.Random;
-
 import android.content.ContentValues;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
-
 import com.activeandroid.sebbia.Cache;
 import com.activeandroid.sebbia.TableInfo;
 import com.activeandroid.sebbia.util.Log;
 import com.activeandroid.sebbia.util.SQLiteUtils;
 import com.activeandroid.sebbia.util.SQLiteUtils.SQLiteType;
+import net.sqlcipher.database.SQLiteDatabase;
+
+import java.util.Random;
 
 public class AutoMigration {
 	

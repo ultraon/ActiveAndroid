@@ -16,16 +16,8 @@ package com.activeandroid.sebbia;
  * limitations under the License.
  */
 
-import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 import android.content.ContentValues;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteStatement;
-
 import com.activeandroid.sebbia.content.ContentProvider;
 import com.activeandroid.sebbia.internal.ModelFiller;
 import com.activeandroid.sebbia.internal.ModelHelper;
@@ -36,6 +28,13 @@ import com.activeandroid.sebbia.query.Select;
 import com.activeandroid.sebbia.serializer.TypeSerializer;
 import com.activeandroid.sebbia.util.Log;
 import com.activeandroid.sebbia.util.ReflectionUtils;
+import net.sqlcipher.database.SQLiteDatabase;
+import net.sqlcipher.database.SQLiteStatement;
+
+import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 @SuppressWarnings("unchecked")
 public abstract class Model {
@@ -106,7 +105,13 @@ public abstract class Model {
 		return (T) new Select().from(type).where(tableInfo.getIdName() + "=?", id).executeSingle();
 	}
 
-	public static void saveMultiple(List<? extends Model> entities) {
+    public static <T extends Model> List<T> loadAll(Class<T> type) {
+        List<T> models = new Select().from(type).execute();
+        if (null == models) models = new ArrayList<T>();
+        return models;
+    }
+
+    public static void saveMultiple(List<? extends Model> entities) {
 		final SQLiteDatabase db = Cache.openDatabase();
 		final ContentValues values = new ContentValues();
 		for (Model entity : entities) {
@@ -124,12 +129,22 @@ public abstract class Model {
 				}
 			} else {
 				fillContentValues(entity, values);
-				db.update(entity.mTableInfo.getTableName(), values, "Id=" + entity.mId, null);
+				db.update(entity.mTableInfo.getTableName(), values, entity.mTableInfo.getIdName() + " = " + entity.mId, null);
 			}
 		}
 	}
 
-	// Model population
+    public static void saveMultipleTransaction(List<? extends Model> entities) {
+        ActiveAndroid.beginTransaction();
+        try {
+            saveMultiple(entities);
+            ActiveAndroid.setTransactionSuccessful();
+        } finally {
+            ActiveAndroid.endTransaction();
+        }
+    }
+
+    // Model population
 
 	public final void loadFromCursor(Cursor cursor) {
 		ModelFiller filler = Cache.getFiller(mTableInfo.getType());

@@ -17,9 +17,9 @@ package com.activeandroid.sebbia;
  */
 
 import android.content.Context;
-import android.database.sqlite.SQLiteDatabase;
 
 import com.activeandroid.sebbia.util.Log;
+import net.sqlcipher.database.SQLiteDatabase;
 
 public final class ActiveAndroid {
 	//////////////////////////////////////////////////////////////////////////////////////
