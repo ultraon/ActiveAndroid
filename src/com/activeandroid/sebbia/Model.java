@@ -332,6 +332,10 @@ public abstract class Model {
 	protected String getIdName() {
 		return idName;
 	}
+	
+	protected void setModelId(long id) {
+		mId = id;
+	}
 
 	// ////////////////////////////////////////////////////////////////////////////////////
 	// OVERRIDEN METHODS
