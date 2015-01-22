@@ -345,24 +345,31 @@ public final class AnnotationProcessor extends AbstractProcessor {
 		return type;
 	}
 
-	private boolean isTypeOf(TypeMirror typeMirror, Class<?> type) {
-		if (type.getCanonicalName().equals(typeMirror.toString()))
-			return true;
+    private boolean isTypeOf(TypeMirror typeMirror, Class<?> type) {
+        if (type.getCanonicalName().equals(typeMirror.toString()))
+            return true;
 
-		if (typeMirror instanceof DeclaredType == false)
-			return false;
+        if (!(typeMirror instanceof DeclaredType))
+            return false;
 
-		DeclaredType declaredType = (DeclaredType) typeMirror;
-		Element element = declaredType.asElement();
-		if (element instanceof TypeElement == false)
-			return false;
+        DeclaredType declaredType = (DeclaredType) typeMirror;
+        Element element = declaredType.asElement();
 
-		TypeElement typeElement = (TypeElement) element;
-		TypeMirror superType = typeElement.getSuperclass();
-		if (isTypeOf(superType, type))
-			return true;
-		return false;
-	}
+        if (type == Enum.class) return isEnum(element);
+
+        if (!(element instanceof TypeElement))
+            return false;
+
+        TypeElement typeElement = (TypeElement) element;
+        TypeMirror superType = typeElement.getSuperclass();
+        if (isTypeOf(superType, type))
+            return true;
+        return false;
+    }
+
+    private boolean isEnum(final Element element) {
+        return element.getKind() == ElementKind.ENUM;
+    }
 
 	private boolean checkTableModifiers(TypeElement table) {
 		if (table.getModifiers().contains(Modifier.PRIVATE)) {
