@@ -9,7 +9,7 @@ public interface IDeepModel {
     Long saveDeep(boolean force);
     Long saveDeep(boolean force, IDeepActionHandler deepActionHandler);
 
-    void deleteDeep();
-    void deleteDeep(boolean force);
-    void deleteDeep(boolean force, IDeepActionHandler deepActionHandler);
+    int deleteDeep();
+    int deleteDeep(boolean force);
+    int deleteDeep(boolean force, IDeepActionHandler deepActionHandler);
 }
