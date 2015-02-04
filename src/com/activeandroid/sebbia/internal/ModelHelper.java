@@ -173,7 +173,9 @@ public class ModelHelper {
 	public static Object getEnum(Cursor cursor, Class<?> fieldType, int columnIndex) {
 		@SuppressWarnings("rawtypes")
 		final Class<? extends Enum> enumType = (Class<? extends Enum>) fieldType;
-		return Enum.valueOf(enumType, cursor.getString(columnIndex));
+        String string = cursor.getString(columnIndex);
+        if (null == string || string.isEmpty()) return null;
+        return Enum.valueOf(enumType, string);
 	}
 	
 	public static Object getValueFromCursor(Cursor cursor, Class<?> fieldType, int columnIndex) {
