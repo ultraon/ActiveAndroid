@@ -61,18 +61,18 @@ public abstract class DeepModel extends Model implements IDeepModel {
                     if (ex != null) {
                         if (!accessible) field.setAccessible(false);
                         if (force) {
-                            Log.e(String.format("Can't save field %s.%s in DB, deep: %b", field.getClass().getSimpleName(), field.getName(), deep), ex);
+                            Log.e(String.format("Can't save field %s.%s in DB, deep: %b", field.getType().getSimpleName(), field.getName(), deep), ex);
                         } else {
-                            final String errMsg = String.format("Can't save field %s.%s in DB, deep: %b", field.getClass().getSimpleName(), field.getName(), deep);
+                            final String errMsg = String.format("Can't save field %s.%s in DB, deep: %b", field.getType().getSimpleName(), field.getName(), deep);
                             Log.e(errMsg);
                             throw new RuntimeException(errMsg, ex);
                         }
                     } else if (-1l == id) {
                         if (!accessible) field.setAccessible(false);
                         if (force) {
-                            Log.e(String.format("Can't save field %s.%s in DB, deep: %b", field.getClass().getSimpleName(), field.getName(), deep));
+                            Log.e(String.format("Can't save field %s.%s in DB, deep: %b", field.getType().getSimpleName(), field.getName(), deep));
                         } else {
-                            final String errMsg = String.format("Can't save field %s.%s in DB, deep: %b", field.getClass().getSimpleName(), field.getName(), deep);
+                            final String errMsg = String.format("Can't save field %s.%s in DB, deep: %b", field.getType().getSimpleName(), field.getName(), deep);
                             Log.e(errMsg);
                             throw new RuntimeException(errMsg);
                         }
@@ -140,9 +140,9 @@ public abstract class DeepModel extends Model implements IDeepModel {
                         }
                     } catch (Exception e) {
                         if (force) {
-                            Log.e(String.format("Can't delete field %s.%s in DB, deep: %b", field.getClass().getSimpleName(), field.getName(), deep), e);
+                            Log.e(String.format("Can't delete field %s.%s in DB, deep: %b", field.getType().getSimpleName(), field.getName(), deep), e);
                         } else {
-                            final String errMsg = String.format("Can't delete field %s.%s in DB, deep: %b", field.getClass().getSimpleName(), field.getName(), deep);
+                            final String errMsg = String.format("Can't delete field %s.%s in DB, deep: %b", field.getType().getSimpleName(), field.getName(), deep);
                             Log.e(errMsg, e);
                             throw new RuntimeException(errMsg, e);
                         }
