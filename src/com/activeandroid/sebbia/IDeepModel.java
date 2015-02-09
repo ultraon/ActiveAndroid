@@ -2,7 +2,7 @@ package com.activeandroid.sebbia;
 
 public interface IDeepModel {
     interface IDeepActionHandler {
-        <T extends Model> boolean shouldProcess(String fieldName, T model);
+        boolean shouldProcess(String fieldName, Model model);
     }
 
     Long saveDeep();
